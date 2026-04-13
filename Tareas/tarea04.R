@@ -116,7 +116,6 @@ flights |>
 flights |> 
   select(where(is.character))
 
-?select
 
 #renombrar las variables
 flights |> 
@@ -230,3 +229,160 @@ daily |>
         n = n(),
         .by = c(origin, dest)
       )
+
+##Ejercicios 19.2 
+
+# 1: We forgot to draw the relationship between weather and airports in Figure 19.1. 
+# What is the relationship and how should it appear in the diagram?
+glimpse(weather)
+glimpse(airports)
+
+unique(airports$faa)
+unique(weather$origin)
+
+# Se relacionan con faa y origin. 
+
+# 2: weather only contains information for the three origin airports in NYC. 
+# If it contained weather records for all airports in the USA, what additional connection would it make to flights?
+
+# Se podria conectar con dest. 
+
+# 3: The year, month, day, hour, and origin variables almost form a compound key for weather, but there’s one hour that has duplicate observations. 
+# Can you figure out what’s special about that hour?
+
+weather |> 
+  count(year, month, day, hour, origin) |> 
+  filter(n > 1)
+
+# observaciones duplicadas por cambio de horario verano-invierno
+
+# 4: We know that some days of the year are special and fewer people than usual fly on them (e.g., Christmas). 
+# How might you represent that data as a data frame? 
+# What would be the primary key? How would it connect to the existing data frames?
+
+less_people_dates <- tribble(
+  ~month, ~day, ~event, 
+  1, 1, "New Year", 
+  12, 24, "Christmas Eve", 
+  12, 25, "Christmas Day",   
+  12, 31, "New Years Eve", 
+)
+
+# PK: month & day
+
+# 5: Draw a diagram illustrating the connections between the Batting, People, and Salaries data frames in the Lahman package. 
+# Draw another diagram that shows the relationship between People, Managers, AwardsManagers. 
+# How would you characterize the relationship between the Batting, Pitching, and Fielding data frames?
+
+glimpse(Batting) # PK: playerID, yearID, stint
+Batting |> 
+  count(playerID, yearID, stint) |> 
+  filter(n > 1)
+
+glimpse(People) # PK: playerID
+People |> 
+  count(playerID) |> 
+  filter(n > 1)
+
+glimpse(Salaries) # PK: playerID, yearID, teamID
+Salaries |> 
+  count(playerID, yearID, teamID) |>
+  filter(n > 1)
+    
+##Ejercicios 19.3.4 
+
+#Find the 48 hours (over the course of the whole year) that have the worst delays. Cross-reference it with the weather data. Can you see any patterns?
+flights |> 
+  group_by(year, month, day, hour, origin) |> 
+  summarize(
+    arr_delay = mean(arr_delay, na.rm = TRUE),
+    .groups = "drop" 
+  ) |> 
+  arrange(desc(arr_delay)) |> 
+  head(48) |> 
+  left_join(weather, by = c("year", "month", "day", "hour", "origin"))
+#muchos datos concentrados en meses como julio y agosto con humedad alta y mucho frio y nieve. El patron puede ser mucha niebla y tormentas de nieve que dificulta los vuelos.
+
+
+#Ejercicio 2:
+top_dest <- flights2 |>
+  count(dest, sort = TRUE) |>
+  head(10)
+
+top_dest |>
+  semi_join(flights2, join_by(dest == dest))
+
+# Ejercicio 3
+# Does every departing flight have corresponding weather data for that hour?
+weather
+
+flights2 |>
+  left_join(weather)
+
+# Ejercicio 4: What do the tail numbers that don’t have a matching record in planes have in common? 
+# (Hint: one variable explains ~90% of the problems.)
+flights2 
+planes
+
+# Ejercicio 5
+#Crear un resumen de los aviones y sus aerolíneas
+carrier_por_avion <- flights2 |> 
+  filter(!is.na(tailnum)) |> 
+  group_by(tailnum) |> 
+  summarise(historial_carriers = paste(unique(carrier), collapse = ", ")) 
+
+# Pegar esa columna a la tabla planes original
+planes_actualizado <- planes |> 
+  left_join(carrier_por_avion, join_by(tailnum))
+
+planes_actualizado
+
+# Ejercicio 6: Add the latitude and the longitude of the origin and destination airport to flights. 
+# Is it easier to rename the columns before or after the join?
+
+flights2
+airports
+
+flights2 |>
+  left_join(airports, join_by(origin == faa)) |>  
+  rename(origin_lat = lat, origin_lon = lon) |> 
+  left_join(airports, join_by(dest == faa)) |> 
+  rename(dest_lat = lat, dest_lon = lon) |> 
+  select(origin, origin_lat, origin_lon, dest, dest_lat, dest_lon)
+ # Es más fácil renombrar las columnas después del join. 
+
+# Ejercicio 7: Compute the average delay by destination, then join on the airports data frame so you can show the spatial distribution of delays. Here’s an easy way to draw a map of the United States:
+airports |>
+  semi_join(flights, join_by(faa == dest)) |>
+  ggplot(aes(x = lon, y = lat)) +
+  borders("state") +
+  geom_point() +
+  coord_quickmap()
+
+
+demoras_por_destino <- flights |> 
+  group_by(dest) |> 
+  summarise(avg_delay = mean(arr_delay, na.rm = TRUE)) #demora promedio de la llegada al destino.
+
+
+mapa_datos <- demoras_por_destino |> 
+  inner_join(airports, join_by(dest == faa))
+
+
+mapa_datos |> 
+  ggplot(aes(x = lon, y = lat, color = avg_delay)) + 
+  borders("state") +
+  geom_point(size = 2, alpha = 0.8) + 
+  coord_quickmap() # rta final.
+
+# Ejercicio 8: What happened on June 13 2013? Draw a map of the delays, and then use Google to cross-reference with the weather.
+flights |> 
+  filter(month == 6 & day == 13) |> 
+  group_by(dest) |> 
+  summarise(avg_delay = mean(arr_delay, na.rm = TRUE)) |> 
+  inner_join(airports, join_by(dest == faa)) |> 
+  ggplot(aes(x = lon, y = lat, color = avg_delay)) + 
+  borders("state") +
+  geom_point(size = 2, alpha = 0.8) + 
+  coord_quickmap() # rta final.
+# El 13 de junio de 2013 hubo una tormenta severa en el medio oeste de EEUU, lo que explica las demoras en esa zona.
