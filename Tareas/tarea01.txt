@@ -1,1 +1,213 @@
-
+ls
+ll
+ls -al
+ls -d
+md
+cd
+cd ..
+https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch
+git
+git status
+git log
+log
+status
+pwd
+cd
+cd /Users/sofia/uba
+cd ~
+ mkdir prueba
+ ls
+ mkdir dir1 dir2 dir3
+ ls
+mv dir1 prueba
+ls
+ mv dir2 prueba
+ ls
+ mv dir3 prueba
+ls
+mkdir prueba/dir1/bienvenida
+cd prueba
+ls
+tree
+mkdir -p dir4/dir5/dir6
+ mkdir another folder
+ls
+ rm
+ rm dir3
+rm -d  dir3
+ ls
+ tree
+ls / 
+ls / >archivos-en-raiz.txt
+ls
+cat archivos-en-raiz.txt
+pwd
+git clone https://gitlab.com/netlab.iiep/econ-520.git
+pwd
+cd ..
+cd
+ls
+cd prueba/
+ls
+cd..
+cd.
+cd
+ls
+cd uba/
+ls
+cd repo-curso-2026/
+ ls
+cd
+cd
+ls
+ cd uba/
+  ls
+cd repo-curso-2026/
+git clone  https://gitlab.com/netlab.iiep/econ-520.git
+$ sudo port install git
+ $ xcode-select --install
+ git
+$ sudo port install git
+ls
+pwd
+cd
+pwd
+cd / Users/sofia/uba
+pwd
+cd /Users/sofia/uba/repo-curso-2026
+pwd
+cd /Users/sofia/uba/repo-curso-2026/prueba
+pwd
+wc -l combined.txt
+pwd
+mkdir prueba
+ls
+mkdir dir1 dir2 dir3
+ls
+mkdir -p dir4/dir5/dir6
+ls
+mv dir1 prueba
+ls
+mv dir2 prueba
+ls
+mv dir3 prueba
+ls
+mv dir4 prueba
+ls
+mkdir prueba/dir1/bienvenida
+cd prueba
+ls
+mkdir -p dir5/dir6
+ls
+rm -d dir3
+ls
+cat archivos
+ls /
+ls / >archivos-en-raiz.txt
+ls
+cat archivos-en-raiz.txt
+echo "This is a test"
+echo "This is a test" > test_1.txt
+echo "This is a second test" > test_2.txt
+echo "This is a third test" > test_3.txt
+ls
+cat test_1.txt text_2.txt test_3.txt
+cat test_1.txt test_2.txt test_3.txt
+ls
+cat t* > combined.txt
+cat combined.txt
+cat t* >> combined.txt
+echo "I've appended a line" >> combined.txt
+cat combined.txt
+mv combined.txt dir1
+lsdir1
+ls dir1
+mv combined.txt test_* dir3 dir2
+ls
+mv dir1/* .
+mv combined.txt test_* dir3 dir2
+wc -l combined.txt
+mv dir1/*
+mv combined.txt test_* dir3
+less combined.txt
+echo "lower case" > a.txt
+echo "Upper case" > A.txt
+echo "Mixed case" > A.TXT
+mv combined.txt dir1
+mkdir dir1
+ls
+pwd
+ls
+ls -l dir1
+ls
+find .. -name "combined.txt"
+mv dir2/combined.txt dir1
+mv combined.txt test_* dir3 dir2
+ls
+ls dir1
+mv dir1/* .
+mv combined.txt test_* dir3 dir2
+ls
+find . -name "combined.txt"
+mv dir2/combined.txt dir1
+ls dir1
+mv dir1/combined.txt dir2
+ls dir2
+ls *.txt
+ls dir2
+ls dir2
+combined.txt  dir3  test_1.txt  test_2.txt  test_3.txt
+combined.txt  dir3  test_1.txt  test_2.txt  test_3.tx
+ls dir2
+mkdir3
+mk dir3
+mkdir dir3
+mv dir3 dir2
+ls dir2
+mv dir2/combined.txt dir4 dir5
+ls dir2
+ls dir4/dir5
+ls dir2
+  ls dir4/dir5
+find . -name "combined.txt"
+mkdir -p dir4/dir5
+mv dir5/combined.txt dir4/dir5
+ls dir5
+ls
+ls dir4
+ls dir4/dir5
+ls dir5
+mkdir -p dir4/dir5/dir6
+mv dir5/combined.txt dir4/dir5/dir6
+find . -name "combined.txt"
+mv dir4/dir5/combined.txt dir4/dir5/dir6
+ls dir4/dir5
+ ls dir4/dir5/dir6
+cp dir4/dir5/dir6/combined.txt .
+ls dir4/dir5/dir6
+ls
+cp combined.txt backup_combined.txt
+ls
+mv backup_combined.txt combined_backup.txt
+ls
+rm dir4/dir5/dir6/combined.txt combined_backup.txt
+ls
+wc -l combined.txt
+ls ~ > file_list.txt
+wc -l file_list.txt
+rm file_list.txt
+ ls ~ | wc -l
+ ls /etc | wc -l
+ ls /etc | less
+cat combined.txt | uniq | wc -l
+ cat combined.txt | uniq | less
+ sort combined.txt | less
+ sort combined.txt | uniq | wc -l
+ mkdir -p Tareas/Tarea1
+nano Tareas/Tarea01/tarea01.txt
+nano Tareas/Tarea01/tarea01.txt
+cd ~/uba/repo-curso-2026
+pwd
+mkdir -p Tareas/Tarea01
+nano Tareas/Tarea01/tarea01.txt
+history > Tareas/Tarea01/tarea01.txt
