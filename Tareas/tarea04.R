@@ -320,7 +320,6 @@ flights2 |>
   left_join(weather)
 
 # Ejercicio 4: What do the tail numbers that don’t have a matching record in planes have in common? 
-# (Hint: one variable explains ~90% of the problems.)
 flights2 
 planes
 
